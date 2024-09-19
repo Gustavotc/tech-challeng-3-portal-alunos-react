@@ -1,7 +1,14 @@
-import Feed from "./features/post/presentation/feed/Feed";
+import { Routes, Route } from "react-router-dom";
+import { CreatePost } from "./pages/create-post";
+
+
 
 function App() {
-  return <Feed />;
+  return (
+    <Routes>
+      <Route path="/" element={<CreatePost />} />
+    </Routes>
+  );
 }
 
 export default App;
