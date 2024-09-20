@@ -2,6 +2,7 @@ import { Flex, Heading, Spinner } from "@chakra-ui/react";
 import PostCard from "./components/postCard/PostCard";
 import { useFeed } from "./useFeed";
 import EmptyPostsList from "./components/emptyPostsList/EmptyPostsList";
+import SearchInput from "./components/searchInput/SearchInput";
 
 export default function Feed() {
   const controller = useFeed();
@@ -12,9 +13,18 @@ export default function Feed() {
         Últimas postagens
       </Heading>
 
+      <SearchInput
+        placeholder="Pesquisar post"
+        mb={8}
+        maxW={450}
+        onChangeText={controller.handleSearch}
+      />
+
       {controller.loading && <Spinner />}
 
-      {!controller.posts.length && <EmptyPostsList />}
+      {!controller.posts.length && (
+        <EmptyPostsList isSearching={!!controller.searchText} />
+      )}
 
       {controller.posts.map((post) => (
         <PostCard

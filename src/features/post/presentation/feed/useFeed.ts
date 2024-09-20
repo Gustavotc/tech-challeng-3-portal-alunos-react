@@ -1,24 +1,28 @@
-import { useState, useEffect } from "react";
+import { useRef, useState } from "react";
 import { IPost } from "../../domain/interfaces/IPost";
 import { useFetchPosts } from "../../domain/usecases/useFetchPosts";
 
 export const useFeed = () => {
-  const [posts, setPosts] = useState<IPost[]>([]);
+  const [searchText, setSearchText] = useState<string | undefined>(undefined);
+  const searchTimerRef = useRef<number | undefined>(undefined);
 
   const handleReadMoreClick = (post: IPost) => {
     console.log("Visualizar detalhes do post:", post.id);
   };
 
-  const { loading, fetchPosts } = useFetchPosts();
+  const handleSearch = (searchTerm: string) => {
+    if (searchTimerRef.current !== undefined) {
+      clearTimeout(searchTimerRef.current);
+    }
 
-  useEffect(() => {
-    const fetchInitialPosts = async () => {
-      const posts = await fetchPosts();
-      setPosts(posts);
-    };
+    searchTimerRef.current = setTimeout(() => {
+      setSearchText(searchTerm);
+    }, 500);
+  };
 
-    fetchInitialPosts();
-  }, []);
+  const { loading, data: posts } = useFetchPosts({
+    searchText,
+  });
 
-  return { posts, loading, handleReadMoreClick };
+  return { posts, loading, searchText, handleReadMoreClick, handleSearch };
 };

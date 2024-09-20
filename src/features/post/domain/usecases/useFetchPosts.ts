@@ -1,25 +1,36 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { IPost } from "../interfaces/IPost";
 import PostRepository from "../../infra/repositories/PostRepository";
 
 type IUserFetchPosts = {
   loading: boolean;
-  fetchPosts: () => Promise<IPost[]>;
+  data: IPost[];
 };
 
-export const useFetchPosts = (): IUserFetchPosts => {
+export type IFetchPostsParams = {
+  searchText?: string;
+};
+
+export const useFetchPosts = (params: IFetchPostsParams): IUserFetchPosts => {
   const repository = new PostRepository();
   const [loading, setLoading] = useState(false);
+  const [posts, setPosts] = useState<IPost[]>([]);
 
-  const fetchPosts = async () => {
+  const fetchPosts = async (params: IFetchPostsParams) => {
+    console.log(params);
     setLoading(true);
-    const postsResponse = await repository.fetchPost();
+    const postsResponse = await repository.fetchPost(params);
+    setPosts(postsResponse);
     setLoading(false);
     return postsResponse;
   };
 
+  useEffect(() => {
+    fetchPosts(params);
+  }, [params.searchText]);
+
   return {
     loading,
-    fetchPosts,
+    data: posts,
   };
 };
