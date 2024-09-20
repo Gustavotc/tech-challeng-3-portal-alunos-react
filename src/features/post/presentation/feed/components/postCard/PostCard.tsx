@@ -6,7 +6,9 @@ import {
   CardBody,
   CardFooter,
   Heading,
+  HStack,
   Stack,
+  Tag,
   Text,
 } from "@chakra-ui/react";
 import { IPost } from "../../../../domain/interfaces/IPost";
@@ -48,11 +50,13 @@ export default function PostCard({ post, onClickReadMore }: PostCardProps) {
             align={{ base: "flex-start", md: "center" }}
             mb="4"
           >
-            <Stack direction="row" align="center">
+            <HStack align="center">
               <Avatar size="xs" />
 
-              <Text fontSize="md">{post.author}</Text>
-            </Stack>
+              <Text fontSize="md" color="gray.700">
+                {post.author}
+              </Text>
+            </HStack>
 
             <Text
               flex={1}
@@ -85,6 +89,7 @@ export default function PostCard({ post, onClickReadMore }: PostCardProps) {
               Ler mais
             </Button>
           )}
+          <Tag marginLeft="auto">{post.category}</Tag>
         </CardFooter>
       </Stack>
     </Card>

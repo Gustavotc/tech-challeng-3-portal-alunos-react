@@ -8,7 +8,7 @@ export default class PostAdapter {
       json.title,
       json.description,
       new Date(json.createAt),
-      "", // TODO - Adicionar nome do autor no retorno da API
+      "Username", // TODO - Adicionar nome do autor no retorno da API
       json.category
     );
   }

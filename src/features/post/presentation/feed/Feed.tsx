@@ -1,6 +1,7 @@
 import { Flex, Heading, Spinner } from "@chakra-ui/react";
 import PostCard from "./components/postCard/PostCard";
 import { useFeed } from "./useFeed";
+import EmptyPostsList from "./components/emptyPostsList/EmptyPostsList";
 
 export default function Feed() {
   const controller = useFeed();
@@ -12,6 +13,8 @@ export default function Feed() {
       </Heading>
 
       {controller.loading && <Spinner />}
+
+      {!controller.posts.length && <EmptyPostsList />}
 
       {controller.posts.map((post) => (
         <PostCard
