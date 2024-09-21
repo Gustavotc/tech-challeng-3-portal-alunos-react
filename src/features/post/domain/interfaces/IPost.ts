@@ -16,5 +16,6 @@ export interface IPostJson {
   updateAt: string;
   user: {
     id: string;
+    name: string;
   };
 }
