@@ -7,7 +7,13 @@ export default function MyPosts() {
   const controller = useMyPosts();
 
   return (
-    <Flex direction="column" p="10" justify="center" align="center">
+    <Flex
+      direction="column"
+      p="10"
+      justify="flex-start"
+      align="center"
+      flex={1}
+    >
       <Heading size="lg" mb="8" color="gray.700">
         Minhas postagens
       </Heading>
