@@ -1,4 +1,4 @@
-import { Flex, Heading, Spinner } from "@chakra-ui/react";
+import { Heading, Spinner, VStack } from "@chakra-ui/react";
 import PostCard from "./components/postCard/PostCard";
 import { useFeed } from "./useFeed";
 import EmptyPostsList from "./components/emptyPostsList/EmptyPostsList";
@@ -8,7 +8,13 @@ export default function Feed() {
   const controller = useFeed();
 
   return (
-    <Flex direction="column" p="10" justify="center" align="center">
+    <VStack
+      direction="column"
+      p="10"
+      justify="flex-start"
+      align="center"
+      flex={1}
+    >
       <Heading size="lg" mb="8" color="gray.700">
         Últimas postagens
       </Heading>
@@ -33,6 +39,6 @@ export default function Feed() {
           onClickReadMore={() => controller.handleReadMoreClick(post)}
         />
       ))}
-    </Flex>
+    </VStack>
   );
 }
