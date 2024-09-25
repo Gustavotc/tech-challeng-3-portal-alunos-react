@@ -6,33 +6,27 @@ import {
     Select,
     Button,
     Textarea,
+    FormControl,
+    FormLabel,
 } from "@chakra-ui/react";
 
-export const CreatePost = () => (
+export const EditPost = () => (
     <Stack
         minHeight="100vh"
         width="100%"
         background="#FFFFFF"
         spacing="0"
-        justify="space-between" // This ensures the footer stays at the bottom
+        justify="space-between"
+        mx="auto"
+        overflowX="hidden"
     >
         {/* Main Content */}
         <Stack flex="1" spacing="0">
-            {/* Header */}
-            <Stack background="#FFC832" paddingX={{ base: "0px", md: "19px" }} paddingY="8px">
-                <Stack direction="row" justify="space-between" align="center" width={{ base: "auto", md: "230px" }} mx="auto">
-                    <Box width={{ base: "50px", md: "65px" }} height="50px" />
-                    <Text fontFamily="Michroma" fontSize={{ base: "18px", md: "24px" }} textAlign="center" flexShrink={0}>
-                        StudentHub
-                    </Text>
-                </Stack>
-            </Stack>
-
             {/* Content */}
             <Stack
                 mt={{ base: "20px", md: "40px" }}
-                paddingX={{ base: "16px", md: "106px" }}
-                pb="41px"
+                paddingX={{ base: "16px", md: "50px" }}
+                pb={{ base: "20px", md: "41px" }}
                 width="100%"
                 maxWidth="824px"
                 mx="auto"
@@ -49,41 +43,41 @@ export const CreatePost = () => (
 
                 <Stack paddingX={{ base: "10px", md: "14px" }} paddingY="30px" borderRadius="8px" background="#D3D3D3" boxShadow="xl" width="100%">
                     {/* Title Input */}
-                    <Stack spacing="10px" width="100%">
-                        <Text fontFamily="Inter" fontSize="18px" color="#767676">
+                    <FormControl width="100%">
+                        <FormLabel fontFamily="Inter" fontSize="18px" color="#767676">
                             Título
-                        </Text>
+                        </FormLabel>
                         <Input
                             placeholder="Javascript está vai continuar em alta?"
                             variant="filled"
                             borderColor="orange"
                             _focus={{ borderColor: "yellow", boxShadow: "0 0 0 1px white" }}
                         />
-                    </Stack>
+                    </FormControl>
 
                     {/* Description Input */}
-                    <Stack spacing="7px" width="100%">
-                        <Text fontFamily="Inter" fontSize="18px" color="#767676">
+                    <FormControl width="100%">
+                        <FormLabel fontFamily="Inter" fontSize="18px" color="#767676">
                             Descrição
-                        </Text>
+                        </FormLabel>
                         <Textarea
                             placeholder="Comente os detalhes do seu post..."
                             borderColor="orange"
                             _focus={{ borderColor: "yellow", boxShadow: "0 0 0 1px white" }}
                         />
-                    </Stack>
+                    </FormControl>
 
                     {/* Category Select */}
-                    <Stack spacing="7px" width="100%">
-                        <Text fontFamily="Inter" fontSize="18px" color="#767676">
+                    <FormControl width="100%">
+                        <FormLabel fontFamily="Inter" fontSize="18px" color="#767676">
                             Categoria
-                        </Text>
+                        </FormLabel>
                         <Select
                             placeholder="Selecione a categoria"
                             borderColor="orange"
                             _focus={{ borderColor: "yellow", boxShadow: "0 0 0 1px white" }}
                         />
-                    </Stack>
+                    </FormControl>
 
                     {/* Action Buttons */}
                     <Stack
@@ -110,18 +104,6 @@ export const CreatePost = () => (
                     </Stack>
                 </Stack>
             </Stack>
-        </Stack>
-
-        {/* Footer */}
-        <Stack
-            justify="center"
-            height="60px"
-            background="#EB8900"
-            width="100%"
-        >
-            <Text fontFamily="Roboto" fontSize="14px" color="#FFFFFF" textAlign="center">
-                Copyright 2024
-            </Text>
         </Stack>
     </Stack>
 );
