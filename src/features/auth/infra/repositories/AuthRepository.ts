@@ -15,7 +15,7 @@ export class AuthRepository {
     const adapter = new AuthRegisterAdapter();
     const body = adapter.toJson(user);
 
-    const response = await api.post<IUser>("/user", { body });
+    const response = await api.post<IUser>("/user", body);
 
     return response.data;
   }
