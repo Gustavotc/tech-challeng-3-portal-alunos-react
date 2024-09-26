@@ -11,7 +11,7 @@ export const useMyPosts = () => {
 
   const toast = useToast();
 
-  const teacherId = "5a08aaa2-c14c-4756-bf9e-01865bc2f171";
+  const teacherId = "8fb9e777-8372-4dc9-82e5-ef1aaec57800";
 
   const { deletePost } = useDeletePost();
 

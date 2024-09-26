@@ -19,3 +19,10 @@ export interface IPostJson {
     name: string;
   };
 }
+
+export interface IPostBody {
+  title: string;
+  description: string;
+  category: string;
+  user_id: string;
+}
