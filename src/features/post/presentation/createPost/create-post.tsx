@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useCreatePost } from "../../domain/usecases/useCreatePost";
 import { useState } from "react";
 import { ICreatePost } from "../../domain/interfaces/IPost";
+import { useAuthContext } from "../../../../contexts/AuthContext";
 
 export const CreatePost = () => {
   const navigate = useNavigate();
@@ -14,16 +15,18 @@ export const CreatePost = () => {
 
   const toast = useToast();
 
-  const userId = "8fb9e777-8372-4dc9-82e5-ef1aaec57800";
+  const { user } = useAuthContext();
 
   const { createPost } = useCreatePost();
 
   const handleSave = async () => {
+    if (!user) return;
+
     const post: ICreatePost = {
       title: tittle,
       description: description,
       category: category,
-      userId: userId,
+      userId: user.id,
     };
 
     try {
@@ -37,7 +40,7 @@ export const CreatePost = () => {
         isClosable: true,
         position: "top-right",
       });
-      navigate("/post/admin");
+      navigate("/posts/admin");
     } catch (e) {
       toast({
         title: "Erro!",
@@ -85,7 +88,7 @@ export const CreatePost = () => {
           </Text>
 
           <Input
-            placeholder="Javascript está vai continuar em alta?"
+            placeholder="Javascript vai continuar em alta?"
             variant="filled"
             borderRadius="4x"
             mb={4}
