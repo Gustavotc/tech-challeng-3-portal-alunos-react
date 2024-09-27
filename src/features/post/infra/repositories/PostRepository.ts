@@ -1,5 +1,5 @@
 import api from "../../../../services/httpClient/api/Api";
-import { IPost, IPostJson } from "../../domain/interfaces/IPost";
+import { ICreatePost, IPost, IPostJson } from "../../domain/interfaces/IPost";
 import { IFetchPostsParams } from "../../domain/usecases/useFetchPosts";
 import { IFetchTeacherPostsParams } from "../../domain/usecases/useFetchTeacherPosts";
 import PostAdapter from "../adapters/PostAdapter";
@@ -45,5 +45,15 @@ export default class PostRepository {
     const query = `?post_id=${postId}&user_id=${userId}`;
 
     await api.delete<IPostJson[]>(`${endpoint}${query}`);
+  }
+
+  async createPost(post: ICreatePost) {
+    const endpoint = "/post";
+    const adapter = new PostAdapter();
+    const body = adapter.toJson(post);
+    const response = await api.post<IPostJson>(endpoint, body);
+
+    return adapter.toDomain(response.data)
+
   }
 }
