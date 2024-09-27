@@ -5,6 +5,7 @@ export default function Footer() {
     <HStack
       justify="center"
       align="center"
+      minHeight="60px"
       height="60px"
       w="full"
       bgColor="#EB8900"

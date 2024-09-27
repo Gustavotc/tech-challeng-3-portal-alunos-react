@@ -17,7 +17,6 @@ export const useFetchPosts = (params: IFetchPostsParams): IUserFetchPosts => {
   const [posts, setPosts] = useState<IPost[]>([]);
 
   const fetchPosts = async (params: IFetchPostsParams) => {
-    console.log(params);
     setLoading(true);
     const postsResponse = await repository.fetchPost(params);
     setPosts(postsResponse);

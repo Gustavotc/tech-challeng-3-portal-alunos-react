@@ -1,19 +1,14 @@
-import { Flex, Heading, Spinner } from "@chakra-ui/react";
+import { Heading, Spinner } from "@chakra-ui/react";
 import { useMyPosts } from "./useMyPosts";
 import EmptyMyPostsList from "./components/emptyMyPostsList/EmptyMyPostsList";
 import MyPostListCard from "./components/myPostsListCard/MyPostListCard";
+import Page from "../../../../components/page/Page";
 
 export default function MyPosts() {
   const controller = useMyPosts();
 
   return (
-    <Flex
-      direction="column"
-      p="10"
-      justify="flex-start"
-      align="center"
-      flex={1}
-    >
+    <Page>
       <Heading size="lg" mb="8" color="gray.700">
         Minhas postagens
       </Heading>
@@ -31,6 +26,6 @@ export default function MyPosts() {
           onClickDelete={() => controller.handleDeletePost(post)}
         />
       ))}
-    </Flex>
+    </Page>
   );
 }

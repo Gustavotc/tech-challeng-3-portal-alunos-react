@@ -1,8 +1,14 @@
 import { useRef, useState } from "react";
 import { IPost } from "../../domain/interfaces/IPost";
 import { useFetchPosts } from "../../domain/usecases/useFetchPosts";
+import { useAuthContext } from "../../../../contexts/AuthContext";
+import User from "../../../auth/domain/models/User";
+import { useNavigate } from "react-router-dom";
 
 export const useFeed = () => {
+  const navigate = useNavigate();
+  const { user } = useAuthContext();
+
   const [searchText, setSearchText] = useState<string | undefined>(undefined);
   const searchTimerRef = useRef<number | undefined>(undefined);
 
@@ -20,9 +26,21 @@ export const useFeed = () => {
     }, 500);
   };
 
+  const handleCreatePost = () => {
+    navigate("/posts/create");
+  };
+
   const { loading, data: posts } = useFetchPosts({
     searchText,
   });
 
-  return { posts, loading, searchText, handleReadMoreClick, handleSearch };
+  return {
+    posts,
+    loading,
+    searchText,
+    isTeacher: User.isTeacher(user),
+    handleReadMoreClick,
+    handleSearch,
+    handleCreatePost,
+  };
 };

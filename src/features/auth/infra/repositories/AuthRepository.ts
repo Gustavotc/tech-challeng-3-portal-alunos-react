@@ -6,8 +6,13 @@ import { IUser } from "../../domain/interfaces/IUser";
 import AuthRegisterAdapter from "../adapters/authRegisterAdapter";
 
 export class AuthRepository {
-  async login(email: string, password: string): Promise<IAuthUser> {
-    const response = await api.post("/auth/login", { email, password });
+  async login(user: IAuthUser): Promise<IUser> {
+    const response = await api.post<IUser>("/auth/login", user);
+
+    if (response.status === 401) {
+      throw new Error();
+    }
+
     return response.data;
   }
 

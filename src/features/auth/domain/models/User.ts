@@ -20,4 +20,9 @@ export default class User implements IUser {
     this.role = role;
     this.id = id;
   }
+
+  static isTeacher(user: IUser | null) {
+    if (!user) return false;
+    return user.role.type === "DOCENTE";
+  }
 }
