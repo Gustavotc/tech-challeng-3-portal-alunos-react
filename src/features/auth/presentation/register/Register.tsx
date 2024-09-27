@@ -33,11 +33,9 @@ export const Register = () => {
         roleId: role,
       };
 
-      const user = await register(authRegister);
-      console.log("User registered:", user);
+      await register(authRegister);
       // Redirecionar ou exibir feedback de sucesso
-    } catch (error) {
-      console.error("Registration failed:", error);
+    } catch {
       setErrorMessage("Erro ao registrar usuário");
     }
   };

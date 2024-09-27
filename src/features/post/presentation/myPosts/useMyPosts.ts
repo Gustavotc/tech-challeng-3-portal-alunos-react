@@ -4,8 +4,11 @@ import { useDeletePost } from "../../domain/usecases/useDeletePost";
 import { useFetchTeacherPosts } from "../../domain/usecases/useFetchTeacherPosts";
 import { useToast } from "@chakra-ui/react";
 import { useAuthContext } from "../../../../contexts/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 export const useMyPosts = () => {
+  const navigate = useNavigate();
+
   const [loading, setLoading] = useState(false);
   const [deletingItemId, setDeletingItemId] = useState<string | null>(null);
   const [posts, setPosts] = useState<IPost[]>([]);
@@ -17,7 +20,7 @@ export const useMyPosts = () => {
   const { deletePost } = useDeletePost();
 
   const handleEditPost = (post: IPost) => {
-    console.log("Editar post:", post.id);
+    navigate(`/posts/create?id=${post.id}`);
   };
 
   const handleDeletePost = async (post: IPost) => {
@@ -64,7 +67,6 @@ export const useMyPosts = () => {
   const { fetchTeacherPosts } = useFetchTeacherPosts();
 
   useEffect(() => {
-    console.log(teacher);
     updateTeacherPosts();
   }, [teacher]);
 

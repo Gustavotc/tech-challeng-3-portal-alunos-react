@@ -1,23 +1,31 @@
 import { Text, Input, Textarea, VStack, useToast } from "@chakra-ui/react";
 import FormButtonsRow from "./components/formButtonsRow/FormButtonsRow";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { useCreatePost } from "../../domain/usecases/useCreatePost";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ICreatePost } from "../../domain/interfaces/IPost";
 import { useAuthContext } from "../../../../contexts/AuthContext";
+import { useFetchPostById } from "../../domain/usecases/useFetchPostById";
 
 export const CreatePost = () => {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+
+  console.log(searchParams);
+
   const [tittle, setTittle] = useState("");
   const [description, setDescription] = useState("");
   const [category, setCategory] = useState("");
   const [loading, setLoading] = useState(false);
+
+  const isEditing = searchParams.get("id") !== undefined;
 
   const toast = useToast();
 
   const { user } = useAuthContext();
 
   const { createPost } = useCreatePost();
+  const { fetchPostById } = useFetchPostById();
 
   const handleSave = async () => {
     if (!user) return;
@@ -41,7 +49,7 @@ export const CreatePost = () => {
         position: "top-right",
       });
       navigate("/posts/admin");
-    } catch (e) {
+    } catch {
       toast({
         title: "Erro!",
         description: "Erro ao criar postagem",
@@ -50,15 +58,33 @@ export const CreatePost = () => {
         isClosable: true,
         position: "top-right",
       });
-      console.log("Error on create post: " + e);
     } finally {
       setLoading(false);
     }
   };
 
   const handleGoBack = () => {
-    navigate("/");
+    navigate("/posts/admin");
   };
+
+  const fetchPostInfo = async (id: string) => {
+    try {
+      const response = await fetchPostById(id);
+      setTittle(response.title);
+      setDescription(response.category);
+      setCategory(response.category);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    const postId = searchParams.get("id");
+
+    if (!postId) return;
+
+    fetchPostInfo(postId);
+  }, []);
 
   return (
     <VStack flex={1} w="full">
@@ -71,7 +97,7 @@ export const CreatePost = () => {
         w="full"
       >
         <Text fontWeight="medium" fontSize={{ base: "xl", md: "3xl" }}>
-          CRIAR POST
+          {isEditing ? "EDITAR POST" : "CRIAR POST"}
         </Text>
 
         <VStack
@@ -92,6 +118,7 @@ export const CreatePost = () => {
             variant="filled"
             borderRadius="4x"
             mb={4}
+            value={tittle}
             onChange={(e) => setTittle(e.target.value)}
           />
 
@@ -104,6 +131,7 @@ export const CreatePost = () => {
             resize="none"
             placeholder="Comente os detalhes do seu post..."
             mb={4}
+            value={description}
             onChange={(e) => setDescription(e.target.value)}
           />
 
@@ -116,6 +144,7 @@ export const CreatePost = () => {
             placeholder="Informe a categoria"
             borderRadius="4px"
             mb={8}
+            value={category}
             onChange={(e) => setCategory(e.target.value)}
           />
 

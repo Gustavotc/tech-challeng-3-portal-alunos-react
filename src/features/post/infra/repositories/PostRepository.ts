@@ -18,8 +18,7 @@ export default class PostRepository {
       const postsResponse = await api.get<IPostJson[]>(`${endpoint}${query}`);
       const adapter = new PostAdapter();
       return postsResponse.data.map(adapter.toDomain);
-    } catch (error) {
-      console.error(error);
+    } catch {
       return [];
     }
   }
@@ -34,8 +33,7 @@ export default class PostRepository {
       const postsResponse = await api.get<IPostJson[]>(`${endpoint}${query}`);
       const adapter = new PostAdapter();
       return postsResponse.data.map(adapter.toDomain);
-    } catch (error) {
-      console.error(error);
+    } catch {
       return [];
     }
   }
@@ -53,7 +51,20 @@ export default class PostRepository {
     const body = adapter.toJson(post);
     const response = await api.post<IPostJson>(endpoint, body);
 
-    return adapter.toDomain(response.data)
+    return adapter.toDomain(response.data);
+  }
 
+  async fetchPostById(id: string) {
+    const endpoint = `/post/${id}`;
+
+    const adapter = new PostAdapter();
+
+    const response = await api.get<IPostJson>(endpoint);
+
+    if (response.status !== 200) {
+      throw new Error();
+    }
+
+    return adapter.toDomain(response.data);
   }
 }
