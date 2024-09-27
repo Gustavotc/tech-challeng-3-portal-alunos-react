@@ -9,6 +9,10 @@ export class AuthRepository {
   async login(user: IAuthUser): Promise<IUser> {
     const response = await api.post<IUser>("/auth/login", user);
 
+    if (response.status === 401) {
+      throw new Error();
+    }
+
     return response.data;
   }
 

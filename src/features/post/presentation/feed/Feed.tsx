@@ -14,6 +14,7 @@ export default function Feed() {
       justify="flex-start"
       align="center"
       flex={1}
+      w="full"
     >
       <Heading size="lg" mb="8" color="gray.700">
         Últimas postagens

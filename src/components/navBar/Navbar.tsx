@@ -1,13 +1,13 @@
 import { HStack, Image } from "@chakra-ui/react";
-import logo from "../../../../../assets/LogoHorizontal.png";
+import logo from "../../assets/LogoHorizontal.png";
 
 export default function NavBar() {
   return (
     <HStack
-      position="absolute"
-      top={0}
+      position="fixed"
       left={0}
       w="full"
+      zIndex={100}
       h={"55px"}
       paddingX={{ base: "16px", sm: "40px" }}
       paddingY="8px"

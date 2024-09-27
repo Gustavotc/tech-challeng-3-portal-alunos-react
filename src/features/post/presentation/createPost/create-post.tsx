@@ -1,6 +1,4 @@
 import { Text, Input, Textarea, VStack } from "@chakra-ui/react";
-import NavBar from "../components/navBar/Navbar";
-import Footer from "../components/footer/Footer";
 import FormButtonsRow from "./components/formButtonsRow/FormButtonsRow";
 import { useNavigate } from "react-router-dom";
 
@@ -20,9 +18,7 @@ export const CreatePost = () => {
   };
 
   return (
-    <VStack flex={1}>
-      <NavBar />
-
+    <VStack flex={1} w="full">
       <VStack
         flex={1}
         marginTop="80px"
@@ -84,8 +80,6 @@ export const CreatePost = () => {
           />
         </VStack>
       </VStack>
-
-      <Footer />
     </VStack>
   );
 };

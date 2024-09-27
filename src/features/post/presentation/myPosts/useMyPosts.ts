@@ -3,6 +3,7 @@ import { IPost } from "../../domain/interfaces/IPost";
 import { useDeletePost } from "../../domain/usecases/useDeletePost";
 import { useFetchTeacherPosts } from "../../domain/usecases/useFetchTeacherPosts";
 import { useToast } from "@chakra-ui/react";
+import { useAuthContext } from "../../../../contexts/AuthContext";
 
 export const useMyPosts = () => {
   const [loading, setLoading] = useState(false);
@@ -11,7 +12,7 @@ export const useMyPosts = () => {
 
   const toast = useToast();
 
-  const teacherId = "5a08aaa2-c14c-4756-bf9e-01865bc2f171";
+  const { user: teacher } = useAuthContext();
 
   const { deletePost } = useDeletePost();
 
@@ -20,11 +21,11 @@ export const useMyPosts = () => {
   };
 
   const handleDeletePost = async (post: IPost) => {
-    if (deletingItemId !== null) return;
+    if (deletingItemId !== null || !teacher) return;
 
     try {
       setDeletingItemId(post.id);
-      await deletePost(post.id, teacherId);
+      await deletePost(post.id, teacher.id);
       setPosts((oldPosts) =>
         oldPosts.filter((oldPost) => oldPost.id !== post.id)
       );
@@ -52,8 +53,10 @@ export const useMyPosts = () => {
   };
 
   const updateTeacherPosts = async () => {
+    if (!teacher) return;
+
     setLoading(true);
-    const response = await fetchTeacherPosts({ teacherId });
+    const response = await fetchTeacherPosts({ teacherId: teacher.id });
     setPosts(response);
     setLoading(false);
   };
@@ -61,8 +64,9 @@ export const useMyPosts = () => {
   const { fetchTeacherPosts } = useFetchTeacherPosts();
 
   useEffect(() => {
+    console.log(teacher);
     updateTeacherPosts();
-  }, []);
+  }, [teacher]);
 
   return { posts, loading, deletingItemId, handleEditPost, handleDeletePost };
 };
