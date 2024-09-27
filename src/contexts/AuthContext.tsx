@@ -4,7 +4,7 @@ import { IUser } from "../features/auth/domain/interfaces/IUser";
 
 type IAuthContext = {
   user: IUser | null;
-  updateAuthUser: (user: IUser) => void;
+  updateAuthUser: (user: IUser | null) => void;
 };
 
 type IAuthProviderProps = React.PropsWithChildren;
@@ -14,7 +14,7 @@ const AuthContext = createContext<IAuthContext>({} as IAuthContext);
 export function AuthProvider({ children }: IAuthProviderProps) {
   const [user, setUser] = useState<IUser | null>(null);
 
-  const updateAuthUser = (user: IUser) => {
+  const updateAuthUser = (user: IUser | null) => {
     setUser(user);
   };
 
