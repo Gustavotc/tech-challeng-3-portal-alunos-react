@@ -61,6 +61,10 @@ export const Login = () => {
     }
   };
 
+  const handleSignUp = () => {
+    navigate("/auth/register");
+  };
+
   return (
     <VStack flex={1}>
       <HStack
@@ -108,7 +112,12 @@ export const Login = () => {
                 Login
               </Button>
 
-              <Button colorScheme="orange" type="button" width="full">
+              <Button
+                colorScheme="orange"
+                type="button"
+                width="full"
+                onClick={handleSignUp}
+              >
                 Sign Up
               </Button>
             </VStack>

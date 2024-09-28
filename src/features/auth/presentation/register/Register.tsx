@@ -1,27 +1,43 @@
 import React, { useState } from "react";
 import { useRegister } from "../../domain/usecases/useRegister";
 import {
-  Box,
   FormControl,
   FormLabel,
   Input,
   Button,
   Heading,
-  VStack,
-  Alert,
-  AlertIcon,
   Select,
+  useToast,
 } from "@chakra-ui/react";
 import { IAuthRegisterUser } from "../../domain/interfaces/IAuthRegisterUser";
+import Page from "../../../../components/page/Page";
+import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
+import { useAuthContext } from "../../../../contexts/AuthContext";
+
+const StyledForm = styled.form`
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+  gap: 1rem;
+  max-width: 600px;
+`;
 
 export const Register = () => {
+  const navigate = useNavigate();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [role, setRole] = useState<"DOCENTE" | "DISCENTE">("DISCENTE");
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
+  const { updateAuthUser } = useAuthContext();
 
   const { register } = useRegister();
+
+  const toast = useToast();
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -33,73 +49,92 @@ export const Register = () => {
         roleId: role,
       };
 
-      await register(authRegister);
-      // Redirecionar ou exibir feedback de sucesso
+      const user = await register(authRegister);
+      updateAuthUser(user);
+      toast({
+        title: "Cadastro realizado",
+        description: `Olá ${name.split(" ")[0]}, seja bem vindo ao StudentHub!`,
+        position: "top-right",
+        status: "success",
+      });
+      navigate("/posts");
     } catch {
-      setErrorMessage("Erro ao registrar usuário");
+      toast({
+        title: "Falha no cadastro",
+        description:
+          "Ocorreu uma falha ao cadastrar o usuário, tente novamente!",
+        position: "top-right",
+        status: "error",
+      });
     }
   };
 
+  const handleGoBack = () => {
+    navigate("/auth/login");
+  };
+
   return (
-    <Box maxW="md" mx="auto" mt={10} flex={1}>
+    <Page>
       <Heading mb={6}>Registrar</Heading>
-      {errorMessage && (
-        <Alert status="error" mb={4}>
-          <AlertIcon />
-          {errorMessage}
-        </Alert>
-      )}
-      <form onSubmit={handleRegister}>
-        <VStack spacing={4}>
-          <FormControl id="name" isRequired>
-            <FormLabel>Nome</FormLabel>
-            <Input
-              type="text"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              placeholder="Digite seu nome"
-            />
-          </FormControl>
 
-          <FormControl id="email" isRequired>
-            <FormLabel>Email</FormLabel>
-            <Input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="Digite seu email"
-            />
-          </FormControl>
+      <StyledForm onSubmit={handleRegister}>
+        <FormControl id="name" isRequired>
+          <FormLabel>Nome</FormLabel>
+          <Input
+            type="text"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            placeholder="Digite seu nome"
+          />
+        </FormControl>
 
-          <FormControl id="password" isRequired>
-            <FormLabel>Senha</FormLabel>
-            <Input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="Digite sua senha"
-            />
-          </FormControl>
+        <FormControl id="email" isRequired>
+          <FormLabel>Email</FormLabel>
+          <Input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="Digite seu email"
+          />
+        </FormControl>
 
-          <FormControl id="role" isRequired>
-            <FormLabel>Cargo</FormLabel>
-            <Select
-              placeholder="Digite seu cargo"
-              onChange={(event) =>
-                setRole(event.target.value as "DOCENTE" | "DISCENTE")
-              }
-              value={role}
-            >
-              <option value="DISCENTE">Discente</option>
-              <option value="DOCENTE">Docente</option>
-            </Select>
-          </FormControl>
+        <FormControl id="password" isRequired>
+          <FormLabel>Senha</FormLabel>
+          <Input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="Digite sua senha"
+          />
+        </FormControl>
 
-          <Button colorScheme="blue" type="submit" width="full">
-            Registrar
-          </Button>
-        </VStack>
-      </form>
-    </Box>
+        <FormControl id="role" isRequired>
+          <FormLabel>Cargo</FormLabel>
+          <Select
+            onChange={(event) =>
+              setRole(event.target.value as "DOCENTE" | "DISCENTE")
+            }
+            value={role}
+          >
+            <option value="DISCENTE">Discente</option>
+            <option value="DOCENTE">Docente</option>
+          </Select>
+        </FormControl>
+
+        <Button colorScheme="orange" type="submit" width="full">
+          Registrar
+        </Button>
+
+        <Button
+          variant="outline"
+          colorScheme="orange"
+          type="submit"
+          width="full"
+          onClick={handleGoBack}
+        >
+          Voltar
+        </Button>
+      </StyledForm>
+    </Page>
   );
 };
