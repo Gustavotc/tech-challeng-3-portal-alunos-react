@@ -71,7 +71,7 @@ export const CreatePost = () => {
     try {
       const response = await fetchPostById(id);
       setTittle(response.title);
-      setDescription(response.category);
+      setDescription(response.description);
       setCategory(response.category);
     } catch (error) {
       console.log(error);
