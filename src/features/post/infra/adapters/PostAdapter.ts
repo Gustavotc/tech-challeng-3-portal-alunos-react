@@ -1,4 +1,9 @@
-import { ICreatePost, IPost, IPostBody, IPostJson } from "../../domain/interfaces/IPost";
+import {
+  ICreatePost,
+  IPost,
+  IPostBody,
+  IPostJson,
+} from "../../domain/interfaces/IPost";
 import Post from "../../domain/models/Post";
 
 export default class PostAdapter {
@@ -18,7 +23,7 @@ export default class PostAdapter {
       title: post.title,
       category: post.category,
       description: post.description,
-      user_id: post.userId
-    }
+      user_id: post.userId,
+    };
   }
 }

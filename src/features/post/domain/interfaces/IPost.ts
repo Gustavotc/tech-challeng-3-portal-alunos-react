@@ -33,3 +33,11 @@ export interface ICreatePost {
   category: string;
   userId: string;
 }
+
+export interface IEditPost {
+  post_id: string;
+  user_id: string;
+  title: string;
+  description: string;
+  category: string;
+}

@@ -1,5 +1,10 @@
 import api from "../../../../services/httpClient/api/Api";
-import { ICreatePost, IPost, IPostJson } from "../../domain/interfaces/IPost";
+import {
+  ICreatePost,
+  IEditPost,
+  IPost,
+  IPostJson,
+} from "../../domain/interfaces/IPost";
 import { IFetchPostsParams } from "../../domain/usecases/useFetchPosts";
 import { IFetchTeacherPostsParams } from "../../domain/usecases/useFetchTeacherPosts";
 import PostAdapter from "../adapters/PostAdapter";
@@ -64,6 +69,15 @@ export default class PostRepository {
     if (response.status !== 200) {
       throw new Error();
     }
+
+    return adapter.toDomain(response.data);
+  }
+
+  async updatePost(post: IEditPost) {
+    const endpoint = "/post";
+    const adapter = new PostAdapter();
+
+    const response = await api.put(endpoint, post);
 
     return adapter.toDomain(response.data);
   }

@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { ICreatePost } from "../../domain/interfaces/IPost";
 import { useAuthContext } from "../../../../contexts/AuthContext";
 import { useFetchPostById } from "../../domain/usecases/useFetchPostById";
+import { useEditPost } from "../../domain/usecases/useEditPost";
 
 export const CreatePost = () => {
   const navigate = useNavigate();
@@ -13,7 +14,7 @@ export const CreatePost = () => {
 
   console.log(searchParams);
 
-  const [tittle, setTittle] = useState("");
+  const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [category, setCategory] = useState("");
   const [loading, setLoading] = useState(false);
@@ -26,12 +27,13 @@ export const CreatePost = () => {
 
   const { createPost } = useCreatePost();
   const { fetchPostById } = useFetchPostById();
+  const { editPost } = useEditPost();
 
   const handleSave = async () => {
     if (!user) return;
 
     const post: ICreatePost = {
-      title: tittle,
+      title: title,
       description: description,
       category: category,
       userId: user.id,
@@ -39,10 +41,29 @@ export const CreatePost = () => {
 
     try {
       setLoading(true);
-      await createPost(post);
+
+      if (!isEditing) {
+        await createPost(post);
+      } else {
+        const editingPostId = searchParams.get("id");
+        if (!editingPostId) return;
+        await editPost({
+          title,
+          description,
+          category,
+          user_id: user.id,
+          post_id: editingPostId,
+        });
+      }
+
+      const feedbackTitle = isEditing ? "Post Editado" : "Post Criado!";
+      const feedbackMessage = isEditing
+        ? "A postagem foi editada com sucesso."
+        : "A postagem foi criada com sucesso.";
+
       toast({
-        title: "Post Criado!",
-        description: "A postagem foi criada com sucesso.",
+        title: feedbackTitle,
+        description: feedbackMessage,
         status: "success",
         duration: 9000,
         isClosable: true,
@@ -70,7 +91,7 @@ export const CreatePost = () => {
   const fetchPostInfo = async (id: string) => {
     try {
       const response = await fetchPostById(id);
-      setTittle(response.title);
+      setTitle(response.title);
       setDescription(response.description);
       setCategory(response.category);
     } catch (error) {
@@ -114,12 +135,12 @@ export const CreatePost = () => {
           </Text>
 
           <Input
-            placeholder="Javascript vai continuar em alta?"
+            placeholder="Informe o título do post"
             variant="filled"
             borderRadius="4x"
             mb={4}
-            value={tittle}
-            onChange={(e) => setTittle(e.target.value)}
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
           />
 
           <Text fontWeight="regular" fontSize="lg" color="gray.500">
@@ -132,7 +153,10 @@ export const CreatePost = () => {
             placeholder="Comente os detalhes do seu post..."
             mb={4}
             value={description}
+            size="md"
             onChange={(e) => setDescription(e.target.value)}
+            rows={5}
+            overflow="hidden"
           />
 
           <Text fontSize="lg" color="gray.500">
