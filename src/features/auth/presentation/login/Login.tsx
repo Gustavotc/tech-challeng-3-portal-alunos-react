@@ -61,6 +61,10 @@ export const Login = () => {
     }
   };
 
+  const handleSignUp = () => {
+    navigate("/auth/register");
+  };
+
   return (
     <VStack flex={1}>
       <HStack
@@ -71,8 +75,8 @@ export const Login = () => {
         paddingTop="20px"
         align="flex-start"
         justify="space-around"
-        w="full">
-
+        w="full"
+      >
         <Show above="md">
           <VStack flex={1} height="100%" justifyContent="center" align="center">
             <Image src={homeImage} alt="HomeImage" />
@@ -108,8 +112,14 @@ export const Login = () => {
                 Login
               </Button>
 
-              <Button colorScheme="orange" type="button" width="full" onClick={() => navigate("/auth/register")}>
-                Sign Up
+              <Button
+                variant="outline"
+                colorScheme="orange"
+                type="button"
+                width="full"
+                onClick={handleSignUp}
+              >
+                Cadastro
               </Button>
             </VStack>
           </StyledForm>

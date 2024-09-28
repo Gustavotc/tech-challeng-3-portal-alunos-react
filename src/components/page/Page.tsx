@@ -11,6 +11,7 @@ export default function Page({ children }: Props) {
       w="full"
       p="10"
       pt="65px"
+      pb={0}
       justify="flex-start"
       align="center"
     >
