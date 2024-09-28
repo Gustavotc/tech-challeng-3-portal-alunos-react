@@ -71,8 +71,8 @@ export const Login = () => {
         paddingTop="20px"
         align="flex-start"
         justify="space-around"
-        w="full"
-      >
+        w="full">
+
         <Show above="md">
           <VStack flex={1} height="100%" justifyContent="center" align="center">
             <Image src={homeImage} alt="HomeImage" />
@@ -108,7 +108,7 @@ export const Login = () => {
                 Login
               </Button>
 
-              <Button colorScheme="orange" type="button" width="full">
+              <Button colorScheme="orange" type="button" width="full" onClick={() => navigate("/auth/register")}>
                 Sign Up
               </Button>
             </VStack>
