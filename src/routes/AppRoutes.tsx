@@ -1,4 +1,4 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import BaseScreenTemplate from "../components/baseScreenTemplate/BaseScreenTemplate";
 import { Login } from "../features/auth/presentation/login/Login";
 import { Register } from "../features/auth/presentation/register/Register";
@@ -12,6 +12,8 @@ import TeacherMiddleware from "./middlewares/TeacherMiddleware";
 export default function AppRoutes() {
   return (
     <Routes>
+      <Route path="/" element={<Navigate to="/posts" replace />} />
+
       <Route path="/" element={<BaseScreenTemplate />}>
         <Route path="auth">
           <Route path="login" element={<Login />} />
