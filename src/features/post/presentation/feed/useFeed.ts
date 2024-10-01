@@ -13,7 +13,9 @@ export const useFeed = () => {
   const searchTimerRef = useRef<number | undefined>(undefined);
 
   const handleReadMoreClick = (post: IPost) => {
-    console.log("Visualizar detalhes do post:", post.id);
+    navigate(`/posts/details/${post.id}`, {
+      state: { id: post.id },
+    });
   };
 
   const handleSearch = (searchTerm: string) => {

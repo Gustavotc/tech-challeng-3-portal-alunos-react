@@ -1,50 +1,63 @@
-# React + TypeScript + Vite
+<h1 align="center">
+  👨‍🎓  Portal Alunos 📚
+</h1>
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+<p align="center">
+  <img alt="License" src="https://img.shields.io/static/v1?label=license&message=MIT&color=79A6F5&labelColor=0A1033">
+</p>
 
-Currently, two official plugins are available:
+## 💻 Project
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+This is a frontend application for a student portal, where teachers can create, update, and delete posts, while students can visualize all posts created by teachers, similar to a blog. The project is built using React, Vite, TypeScript, and Chakra UI.
 
-## Expanding the ESLint configuration
+## :hammer_and_wrench: Features
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+- [ ] Post listing and visualization
+- [ ] Create, update, and delete posts (for teachers)
+- [ ] Pagination support
+- [ ] User authentication and role-based access
+- [ ] Responsive design
+- [ ] Form validation
 
-- Configure the top-level `parserOptions` property like this:
+## ✨ Technologies
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+- [ ] React
+- [ ] Vite
+- [ ] TypeScript
+- [ ] Chakra UI
+- [ ] Yarn (package manager)
+- [ ] ESLint + Prettier (code quality and formatting)
+- [ ] React Query (data fetching and caching)
+- [ ] Axios (HTTP client)
+- [ ] React Router (routing)
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+## 👨‍💻 Getting started
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+### Prerequisites
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
+- Make sure you have **Node.js** and **Yarn** installed on your machine.
+
+### Installation
+
+```bash
+# Clone the project
+$ git clone https://github.com/Gustavotc/tech-challeng-3-portal-alunos-react.git
+
+# Navigate to the project directory
+$ cd tech-challeng-3-portal-alunos-react
+
+# Install the project dependencies
+$ yarn install
+
+# Start the development server
+$ yarn dev
+
+# Build the application
+$ yarn build
+
+# Check for linting errors
+$ yarn lint
+
+# Fix linting issues
+$ yarn lint:fix
 ```

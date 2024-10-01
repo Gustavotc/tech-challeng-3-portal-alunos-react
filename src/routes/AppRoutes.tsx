@@ -8,6 +8,7 @@ import MyPosts from "../features/post/presentation/myPosts/MyPosts";
 import FallbackScreen from "../components/fallbackScreen/FallbackScreen";
 import AuthMiddleware from "./middlewares/AuthMiddleware";
 import TeacherMiddleware from "./middlewares/TeacherMiddleware";
+import PostDetails from "../features/post/presentation/postDetails/PostDetails";
 
 export default function AppRoutes() {
   return (
@@ -22,6 +23,7 @@ export default function AppRoutes() {
 
         <Route path="posts" element={<AuthMiddleware />}>
           <Route index element={<Feed />} />
+          <Route path="details/:id" element={<PostDetails />} />
           <Route element={<TeacherMiddleware />}>
             <Route path="create/:id?" element={<CreatePost />} />
             <Route path="admin" element={<MyPosts />} />

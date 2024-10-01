@@ -1,4 +1,3 @@
-import { useState, useLayoutEffect, useRef } from "react";
 import {
   Avatar,
   Button,
@@ -19,23 +18,6 @@ type PostCardProps = {
 };
 
 export default function PostCard({ post, onClickReadMore }: PostCardProps) {
-  const textContainerRef = useRef<HTMLParagraphElement | null>(null);
-  const [isTextTruncated, setIsTextTruncated] = useState(false);
-
-  useLayoutEffect(() => {
-    const checkIfTruncated = () => {
-      if (textContainerRef.current) {
-        const container = textContainerRef.current;
-        setIsTextTruncated(container.scrollHeight > container.clientHeight);
-      }
-    };
-
-    checkIfTruncated();
-
-    window.addEventListener("resize", checkIfTruncated);
-    return () => window.removeEventListener("resize", checkIfTruncated);
-  }, [post]);
-
   const formattedDate = Intl.DateTimeFormat("pt-BR", {
     dateStyle: "medium",
     timeStyle: "short",
@@ -72,23 +54,21 @@ export default function PostCard({ post, onClickReadMore }: PostCardProps) {
             {post.title}
           </Heading>
 
-          <Text ref={textContainerRef} color="gray.700" noOfLines={3}>
+          <Text color="gray.700" noOfLines={3}>
             {post.description}
           </Text>
         </CardBody>
 
         <CardFooter>
-          {isTextTruncated && (
-            <Button
-              variant="solid"
-              colorScheme="blue"
-              bgColor="orange.400"
-              _hover={{ bgColor: "orange.300" }}
-              onClick={onClickReadMore}
-            >
-              Ler mais
-            </Button>
-          )}
+          <Button
+            variant="solid"
+            colorScheme="blue"
+            bgColor="orange.400"
+            _hover={{ bgColor: "orange.300" }}
+            onClick={onClickReadMore}
+          >
+            Ler mais
+          </Button>
           <Tag marginLeft="auto">{post.category}</Tag>
         </CardFooter>
       </Stack>

@@ -12,14 +12,12 @@ export const CreatePost = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
 
-  console.log(searchParams);
-
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [category, setCategory] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const isEditing = searchParams.get("id") !== undefined;
+  const isEditing = searchParams.get("id") !== null;
 
   const toast = useToast();
 
