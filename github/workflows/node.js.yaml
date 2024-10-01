@@ -1,0 +1,55 @@
+name: Node.js Docker Build and Test
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+  
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+  
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+ 
+      - name: Install dependencies
+        run: yarn install
+
+
+      - name: Run lint and tests
+        run: |
+          yarn lint
+          yarn test
+
+  
+      - name: Build Docker image
+        run: docker build -t my-node-app .
+
+  
+      - name: Run Docker container
+        run: docker run -d -p 5173:5173 --name my-node-app my-node-app
+
+    
+      - name: Verify container is running
+        run: |
+          sleep 10
+          curl -f http://localhost:5173 || exit 1
+
+    
+      - name: Stop and remove Docker container
+        if: always()
+        run: |
+          docker stop my-node-app
+          docker rm my-node-app
